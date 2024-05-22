@@ -1,26 +1,34 @@
-const root = document.getElementById("root");
-const Firstcode = () => {
-  const name = "hello Jenny Roy";
-  return (root.innerHTML = `<h1>${name}</h1>`);
-};
-const Secondcode = () => {
-  const name = "hello Harry Khan";
-  return (root.innerHTML = `<h1>${name}</h1>`);
-};
-let run = true;
-const button = document.querySelector("button");
-button.addEventListener("click", () => {
-  if (run === true) {
-    Firstcode();
-    run = false;
-  } else if (run === false) {
-    Secondcode();
-    run = true;
-  }
-});
 
-// DOM
-//function,callBack fuction,return() fuction
-//$template string + innerHTML
-//events,addEventListener()
-//Condition rendering
+import productData from "./Data.js";
+const App = () => {
+  const main = document.querySelector(".main");
+  const dataAPI = "https://fakestoreapi.com/products/1";
+  const callAPI = async () => {
+    const reponse = await fetch(dataAPI);
+    const convertJSON = await reponse.json();
+    console.log(convertJSON);
+    const storeData  = [];
+    storeData.push(convertJSON)
+    console.log(storeData);
+    return (
+      storeData.forEach((data)=>{
+        main.innerHTML += `<div class="product-card" ${data.id}>
+    <div class="product-image">
+        <img src=${data.image} alt="Product Image">
+    </div>
+    <div class="product-details">
+        <h2 class="product-title">${data.category}</h2>
+        <p class="product-description">${data.description}</p>
+        <div class="product-price">$ ${data.price}</div>
+        <button class="buy-now-button">Buy Now</button>
+    </div>
+</div>`
+      })
+    );
+  };
+  const productDataAPI = callAPI();
+  return productDataAPI;
+};
+
+export default App();
+
